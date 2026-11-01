@@ -1,0 +1,5 @@
+{
+  "folders": [{"path": "."}],
+  "settings": {"files.exclude": {"**/node_modules": true, "**/dist": true}, "editor.tabSize": 2},
+  "extensions": {"recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]}
+}
