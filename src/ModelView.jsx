@@ -54,7 +54,7 @@ export function ModelView({
     renderer.setClearColor(0, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.45;
+    renderer.toneMappingExposure = world ? 1.08 : 1.3;
     el.appendChild(renderer.domElement);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -64,7 +64,7 @@ export function ModelView({
     controls.target.set(0, -0.1, 0);
     controls.minDistance = 3;
     controls.maxDistance = 12;
-    scene.add(new THREE.HemisphereLight(0xfff0d5, 0x536858, 3));
+    scene.add(new THREE.HemisphereLight(0xfff0d5, 0x314e3a, 2.1));
     const sun = new THREE.DirectionalLight(0xffe3b1, 4.2);
     sun.position.set(8, 14, 10);
     scene.add(sun);
@@ -232,7 +232,7 @@ export function ModelView({
             mesh.material.wireframe = c.wireframe;
           }
           if (mesh.material.emissive) {
-            mesh.material.emissive.setHex(mesh === hover ? 0x304922 : 0x000000);
+            mesh.material.emissive.setHex(mesh === hover ? 0x986b23 : 0x000000);
             mesh.material.emissiveIntensity = 0.22;
           }
         }

@@ -1,81 +1,85 @@
 # Quest Grove
 
-An interactive adaptive-learning prototype for Indian students in Classes 6–10. Explore five Blender-built learning islands, discover concepts in 3D, and follow a path that responds to your answers. Teachers see the evidence and decide how to guide the learner.
+Live website: https://quest-grove-eduactional-platform.vercel.app/
+
+Interactive adaptive learning for Indian Classes 6–10, with Blender-built subject islands, bilingual concept pathways, and teacher guidance.
+
+## Version 1.1
+
+- A richer forest-green, moss and brass palette, stronger model lighting and clearer subject highlights.
+- Neon PostgreSQL storage behind Vercel Functions.
+- Private cloud workspace creation, recovery-code connection, explicit save and restore, and browser disconnect.
+- Optimistic revision checks prevent one device from silently overwriting another device’s newer save.
+- Offline-first local learning remains available without an account or connection.
 
 ## Open in VS Code
 
-Open `quest-grove.code-workspace`. Use **Terminal → Run Task → Install dependencies**, then **Start Quest Grove**. Or run:
+Open `quest-grove.code-workspace` and run the included tasks, or:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Requires Node.js 22 or newer. The usual preview address is printed by Vite. No API keys, database account, or cloud setup is needed to run the complete local prototype.
+Node.js 22 or newer is required. Standard Vite serves the frontend. Cloud API routes run on Vercel; `vercel dev` can serve them locally when the server-only environment variable is configured.
 
-## Offline version
+## Private cloud backup
 
-Open `Quest-Grove.html` from the delivered ZIP directly in a modern browser. It includes the app, all lesson content, fonts, images and GLB models. A network connection is not required. Browser file-storage behavior varies; keep using the same file and browser to preserve local progress. Read-aloud depends on the voices installed in the browser/device.
+Choose the cloud icon or **Private cloud workspace**. Create a workspace to save the current learner profiles, attempts and teacher guidance. Keep the recovery code somewhere private: it grants access to the entire workspace and is shown only when the workspace is created.
 
-To rebuild that file:
+After learning, select **Save current progress**. On another browser, connect using the code and select **Restore saved workspace**. Restore keeps the previous local state under `quest-grove-before-cloud-restore` in that browser. Cloud saves are explicit; changing a local answer does not automatically upload it. If another device saved first, a conflict message stops the overwrite.
+
+The server stores only a SHA-256 hash of the workspace secret. Browser sessions use Secure, HttpOnly, SameSite=Strict cookies. The recovery code is not stored in the frontend bundle or source repository. It is an owner-level workspace credential, not a separate student or teacher account. Share it only with authorised people. This remains a prototype rather than a production school identity system.
+
+## Database and deployment
+
+The production frontend and `/api/workspace` / `/api/health` run on Vercel. The database is Neon PostgreSQL in Singapore. The runtime role has only schema usage and SELECT/INSERT/UPDATE on the workspace table. It cannot create tables or delete records.
+
+The Vercel production Secret `QUESTGROVE_DATABASE_URL` points to this database. An existing `DATABASE_URL` setting is preserved. The code supports `DATABASE_URL` as a fallback for other installations. Never prefix a database credential with `VITE_`, and never commit a real `.env` file.
+
+For another deployment:
+
+1. Create a PostgreSQL database and apply `database/schema.sql` using its owner role.
+2. Create a limited runtime login and grant schema usage plus SELECT/INSERT/UPDATE on `questgrove_workspaces`.
+3. Set `QUESTGROVE_DATABASE_URL` as a server-only Vercel Secret using the pooled URL.
+4. Import the GitHub repository, use `npm run build` and output directory `dist/client`.
+5. Visit `/api/health`, then create/save/restore a test workspace in the app.
+
+The prototype limits each snapshot to under 900 KB and caps new workspaces at 200. Local learning continues if the cloud is unavailable. No real credentials are included in the ZIP.
+
+## Learning features
+
+- Five real Blender subject islands, with mesh clicks and accessible subject buttons.
+- 25 grade-specific sample concepts and 175 distinct questions.
+- English/Hindi lessons, questions and core learner controls; locally bundled Devanagari fonts.
+- Three-question diagnostic; foundation, practice and extension levels; level-adaptive checkpoints with novel material.
+- Two incorrect practice answers trigger foundations; two correct answers unlock an extension. Learning examples adapt with the level.
+- 15 editable Blender models, with rotation, reset, part exploration, wireframe, hover feedback and maths experiments.
+- Shared-device aliases, progress, curiosity points, class/language preferences, low-data mode and reduced motion.
+- Teacher studio using actual saved attempts, observations, tasks, class filtering and CSV export.
+
+These are curated starter concepts, not a complete textbook syllabus or officially certified board alignment. Board preference is recorded but does not claim a full board-specific curriculum. Scores describe the sampled checkpoint level and support teacher judgement.
+
+## Offline file
+
+The ZIP includes `Quest-Grove.html`. Open it directly in a modern browser to use all lessons, fonts, still previews and GLB models without a connection. The standalone file disables cloud operations; use the hosted website for private cloud save/restore. Browser file-storage behavior varies; use the same file and browser to retain local progress.
 
 ```sh
 npm run build
 ```
 
-The result is written to the project root and `dist/client/Quest-Grove.html`. Download links inside the hosted app use that file. Source checkouts intentionally omit the generated HTML; build once before using the offline download link in development.
+This rebuilds the offline file at the project root and `dist/client/Quest-Grove.html`. Source checkouts omit this generated HTML; build once before using its development download link.
 
-## Working features
-
-- A live Blender-exported world with five clickable subject islands. Labels and subject cards provide keyboard/touch alternatives.
-- 25 curated concept pathways: one topic per subject per class, across Mathematics, Science, English, Social Studies and Logic.
-- 175 distinct questions with prerequisite, practice and extension levels. English and Hindi lesson/question support; English grammar examples retain English sentences.
-- A three-question starting diagnostic; learning examples, practice difficulty and checkpoint questions respond to the learner’s current level.
-- Two consecutive incorrect practice answers revisit foundations; two consecutive correct answers unlock extension work. Mixed answers return to practice.
-- Three-question checkpoints include novel material. Checkpoint percentages describe the difficulty level attempted; only a strong extension checkpoint counts as a strong concept in the overview.
-- 15 editable Blender source models and GLB exports: the world, observatory, molecule, geometry, books, globe, puzzle, fractions, number line, balance, triangle, filtration, heat, pressure and circuit.
-- Model rotation, reset, part separation, wireframe, hover/click feedback, motion pause and grade-specific interactive maths experiments.
-- Shared-device learner aliases, class and language preferences, local progress, curiosity points and teacher assignments.
-- Teacher studio with real local attempts, gap suggestions, notes, assignments, class filtering and CSV report export. No fabricated performance metrics.
-- Low-data still-image mode, reduced-motion support, model loading/error fallback, semantic controls and modal focus management.
-
-## Problem statement coverage
-
-See [REQUIREMENTS.md](REQUIREMENTS.md) for a requirement-to-feature map from the supplied PDF.
-
-This is a complete local prototype of the core journeys, **not a full textbook syllabus, official board alignment, or production school information system**. Board selection records a preference; it does not claim complete board-specific content. Teacher tools support judgement; the small question sample is not a validated student assessment.
-
-## Data and privacy
-
-All learner records and teacher notes are kept in this browser’s localStorage. Seeded Explorer profiles begin with no attempts. Profiles are for demonstrating a shared device; they are not secure accounts. No real student cloud authentication, server database or cross-device sync is active. Clearing browser storage removes local progress. Exported CSV files contain the chosen local aliases and notes; share them intentionally.
-
-## Build and checks
+## Verification and source
 
 ```sh
 npm test
 npm run test:ui
 npm run build
-# or all checks together:
-npm run verify
 ```
 
-Unit checks cover all 25 lesson selections, bilingual question structure, distinct difficulty tiers, adaptive branching, checkpoint scoring and GLB integrity. Flow tests use React in jsdom, with GPU rendering replaced by a test double; they verify diagnostic → adaptation → checkpoint → teacher assignment, subject opening, class switching, Hindi and profile switching. These tests do not measure WebGL appearance or real device performance.
+Tests cover curriculum/adaptation, GLB integrity, cloud authentication/CSRF/conflicts, packaging and React learning flows. A real PostgreSQL smoke test also verifies private create/save/restore and conflict behavior. Browser evidence is recorded in `design-qa.md`.
 
-Browser-based visual QA status is recorded separately in [design-qa.md](design-qa.md). A build or jsdom result is not represented as a browser screenshot.
+Blender sources are in `public/models/*.blend`, web assets in `*.glb`, still renders in `public/previews/`, and reproducible scripts in `blender/`. The detailed architectural diorama has 2,088 editable components; its optimised web export uses 107 subject/material meshes. It is not a photorealistic recreation of the original generated visual.
 
-## Blender files
-
-- `public/models/*.blend`: editable sources.
-- `public/models/*.glb`: web assets loaded by Three.js.
-- `public/previews/*.png`: Blender renders used in low-data mode.
-- `blender/`: reproducible scene/model/optimization scripts.
-
-Run the scripts with Blender 5.x in background mode. The full world source retains 2,088 editable meshes; the web export joins them into 107 subject/material meshes and preserves subject prefixes for click detection. The world is a detailed architectural diorama inspired by the selected visual, not a photorealistic recreation.
-
-## GitHub and Vercel
-
-Repository: https://github.com/expertX221/QuestGrove
-
-`vercel.json` is included. Import this repository in Vercel, use the Vite framework, `npm run build` and output directory `dist/client`. No environment variables are needed for this local-data prototype. A connected Vercel deployment has not been created in this session.
-
-The original Sites packaging worker and tests are preserved. GitHub Actions builds and tests the project and uploads the browser/offline build as an artifact.
+`REQUIREMENTS.md` maps features to the supplied problem statement. GitHub: https://github.com/expertX221/QuestGrove

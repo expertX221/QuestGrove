@@ -1,3 +1,4 @@
+import { CloudWorkspace } from "./CloudWorkspace";
 import { modelFor } from "./experiments";
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -17,6 +18,7 @@ import {
   Check,
   Sparkle,
   DownloadSimple,
+  Cloud,
 } from "@phosphor-icons/react";
 import { asset, offlineHref } from "./assets";
 import { ModelView } from "./ModelView";
@@ -168,6 +170,13 @@ export function App() {
             onClick={togglePause}
           >
             {state.settings.paused ? <Play size={17} /> : <Pause size={17} />}
+          </button>
+          <button
+            className="motion cloud-toggle"
+            aria-label="Cloud workspace"
+            onClick={() => show("cloud")}
+          >
+            <Cloud size={18} />
           </button>
           <button
             className="motion settings-toggle"
@@ -599,6 +608,10 @@ export function App() {
             </p>
           </div>
           <div className="access-actions">
+            <button className="secondary" onClick={() => show("cloud")}>
+              <Cloud size={18} />
+              {hi ? "निजी क्लाउड कार्यक्षेत्र" : "Private cloud workspace"}
+            </button>
             <button className="secondary" onClick={() => show("settings")}>
               <Gear size={18} />
               {t.setup}
@@ -643,9 +656,11 @@ export function App() {
               ? subjects.find((s) => s.id === selected).name
               : panel === "teachers"
                 ? "Teacher studio"
-                : panel === "settings"
-                  ? t.settings
-                  : t.path
+                : panel === "cloud"
+                  ? "Cloud workspace"
+                  : panel === "settings"
+                    ? t.settings
+                    : t.path
           }
           onClose={close}
           back={t.back}
@@ -663,6 +678,8 @@ export function App() {
             />
           ) : panel === "journey" ? (
             <Journey student={student} onOpen={open} />
+          ) : panel === "cloud" ? (
+            <CloudWorkspace state={state} setState={setState} />
           ) : panel === "settings" ? (
             <Setup
               state={state}

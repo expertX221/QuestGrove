@@ -6,3 +6,6 @@ dist/
 
 .ui-test-*/
 Quest-Grove.html
+
+.env*
+!.env.example

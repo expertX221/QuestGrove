@@ -15,3 +15,6 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Cover PDF outcomes through grade-specific sample concepts for Classes 6–10, diagnostic, adaptive Learn/Solve/Test, teacher guidance, English/Hindi content, shared-device profiles and offline support.
 - Deliver an updated VS Code source ZIP and publish to the existing expertX221/QuestGrove repository when access permits.
 - Clearly distinguish complete prototype workflows from a full official curriculum or production school authentication.
+- Version 1.1: user requested stronger, more suitable colours and initial model highlights. Use deeper forest panels, brass accents and richer 3D lighting while preserving the selected composition.
+- Production target: create-projects1/quest-grove-eduactional-platform on Vercel, using expertX221/QuestGrove main.
+- Neon-backed private workspace backup is explicit save/restore; recovery code grants whole-workspace access, with no claim of separate school identity accounts. Preserve offline mode and the pre-existing DATABASE_URL setting.

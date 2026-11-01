@@ -38,7 +38,7 @@ export const copy = {
     assignment: "From your teacher",
     completed: "Checkpoint complete",
     saved: "Saved on this device",
-    local: "Shared-device demo · Data stays in this browser",
+    local: "Offline first · Private cloud backup available",
     notSyllabus:
       "Concept pathways inspired by Indian classrooms. A prototype sample, not a complete or officially aligned syllabus.",
   },
@@ -81,7 +81,7 @@ export const copy = {
     assignment: "आपके शिक्षक की ओर से",
     completed: "जाँच पूरी हुई",
     saved: "इस उपकरण पर सहेजा गया",
-    local: "साझा उपकरण का डेमो · डेटा इसी ब्राउज़र में रहता है",
+    local: "पहले ऑफ़लाइन · निजी क्लाउड बैकअप उपलब्ध",
     notSyllabus:
       "भारतीय कक्षाओं से प्रेरित अवधारणाएँ। यह नमूना है, पूरा या आधिकारिक पाठ्यक्रम नहीं।",
   },

@@ -2157,3 +2157,179 @@ td small {
     font-size: 52px;
   }
 }
+/* Richer forest, brass and moss accents */
+.hero-3d {
+  left: 37%;
+  top: 110px;
+  bottom: 35px;
+  background: #173e35;
+  border-radius: 75px 0 0 75px;
+  border: 1px solid #9a8b5655;
+  box-shadow: 0 22px 55px #122d2015;
+}
+.hero h1 em {
+  color: #916b2d;
+}
+.island-label {
+  border-color: #b9a26e;
+  background: #fff8e8;
+}
+.island:hover .island-label {
+  background: #e3c47d;
+  color: #173d2c;
+  box-shadow: 0 8px 30px #d1aa5c55;
+}
+.island-dot {
+  background: #f2cc75;
+  border-color: #b68b39;
+}
+.primary:hover {
+  background: #d9b86b;
+  color: #173c2c;
+}
+.explore {
+  background: #173e35;
+  color: #faf2db;
+}
+.explore .eyebrow,
+.explore .section-heading > p,
+.explore .class-control {
+  color: #d9ca9f;
+}
+.explore .subject-card {
+  border-color: #759480;
+}
+.explore .subject-card img {
+  mix-blend-mode: normal;
+}
+.explore .subject-topic {
+  color: #d5e1c5 !important;
+}
+.explore .subject-card > p,
+.explore .subject-number,
+.explore .card-progress span,
+.explore .curriculum-scope {
+  color: #bdd1ad;
+}
+.explore progress {
+  accent-color: #d9b76a;
+}
+.explore progress::-webkit-progress-value {
+  background: #d9b76a;
+}
+.explore progress::-webkit-progress-bar {
+  background: #3c6252;
+}
+.cloud-explainer {
+  display: flex;
+  gap: 18px;
+  padding: 20px;
+  background: #e7eedf;
+  border-left: 3px solid #698954;
+  margin: 25px 0;
+}
+.cloud-explainer svg {
+  flex-shrink: 0;
+}
+.cloud-explainer p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 0;
+  color: #536c48;
+}
+.cloud-connected {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+}
+.cloud-connected p {
+  font-size: 11px;
+  color: #708364;
+}
+.cloud-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cloud-actions .text-link {
+  margin: 0;
+}
+.cloud-join {
+  margin-top: 35px;
+  border-top: 1px solid #ccd7bf;
+  padding-top: 25px;
+}
+.cloud-join h3 {
+  font-family: "Libre Caslon Display", serif;
+  font-size: 30px;
+}
+.cloud-join label {
+  display: grid;
+  gap: 10px;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.cloud-message {
+  background: #e9eedc;
+  padding: 15px;
+  font-size: 12px !important;
+  color: #3d5e33 !important;
+  line-height: 1.7;
+}
+.recovery-card {
+  background: #f3e6c2;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+.recovery-card p {
+  font-size: 11px;
+}
+.recovery-card code {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  margin: 15px 0;
+}
+.cloud-toggle {
+  background: #e3ead8;
+  border-color: #b8c4a5;
+}
+@media (max-width: 700px) {
+  .hero-3d {
+    left: 3%;
+    right: 3%;
+    top: 460px;
+    bottom: 35px;
+    border-radius: 35px;
+  }
+  .header-end {
+    gap: 5px;
+  }
+  .header-end .motion {
+    width: 27px;
+    height: 27px;
+  }
+  .hero .island-hotspots {
+    top: 465px;
+    bottom: 45px;
+  }
+  .hero .island-social {
+    left: 76% !important;
+  }
+  .cloud-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cloud-actions .primary {
+    justify-content: center;
+  }
+  .cloud-explainer {
+    padding: 15px;
+  }
+  .brand {
+    font-size: 25px;
+  }
+}

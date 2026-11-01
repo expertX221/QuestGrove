@@ -33,3 +33,7 @@ Source: supplied four-page Code Kernel ’26 Adaptive Learning for Classes 6 to 
 ## Data flow
 
 UI events → pure adaptive rules → versioned local learner records → learning path and teacher studio → optional CSV export. No credentials, cloud database or hidden external model calls are required. Three.js loads the Blender GLBs locally; the standalone file replaces asset paths with embedded data URIs.
+
+## Version 1.1 cloud and visual update
+
+The owner requested stronger forest/brass highlights and a live database-backed Vercel deployment. Private cloud save/restore now stores the complete learner workspace in Neon through authenticated Vercel Functions. Local-first behavior remains. Recovery codes grant full workspace access; this is not a multi-role school authentication system. Concurrent cloud updates use revision checks and do not silently overwrite one another.
