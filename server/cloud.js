@@ -261,6 +261,15 @@ export function createHandler(sqlFactory = database) {
       console.error("Quest Grove cloud operation failed", {
         name: e.name,
         code: e.code,
+        detail: String(e.message)
+          .replaceAll(
+            process.env.QUESTGROVE_DATABASE_URL || "___",
+            "[redacted]",
+          )
+          .replaceAll(process.env.DATABASE_URL || "___", "[redacted]")
+          .replace(/postgres(?:ql)?:\/\/\S+/g, "[connection]")
+          .replace(/\b[0-9a-f]{64}\b/gi, "[redacted]"),
+        scoped: Boolean(process.env.QUESTGROVE_DATABASE_URL),
       });
       return response(
         {
