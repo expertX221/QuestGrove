@@ -2333,3 +2333,38 @@ td small {
     font-size: 25px;
   }
 }
+/* Verified responsive and dark-panel contrast corrections */
+.hero-bottom {
+  bottom: 55px;
+}
+.hero:has(.hero-3d) .hero-bottom p,
+.hero:has(.hero-3d) .hero-bottom .chapter {
+  color: #e8dbaf;
+}
+.hero:has(.world-image) .hero-bottom p {
+  color: #345c3b;
+}
+@media (max-width: 700px) {
+  .hero {
+    height: 1160px;
+  }
+  .hero-copy h1 {
+    font-size: 60px;
+  }
+  .hero-copy h1 br:nth-of-type(2) {
+    display: initial;
+  }
+  .hero-3d {
+    top: 570px;
+  }
+  .hero .island-hotspots {
+    top: 590px;
+    bottom: 45px;
+  }
+  .hero-bottom {
+    bottom: 55px;
+  }
+  :lang(hi) .hero-copy h1 {
+    font-size: 48px;
+  }
+}

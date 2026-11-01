@@ -32,7 +32,7 @@ globalThis.ResizeObserver = class {
   disconnect() {}
 };
 const React = await import("react");
-const { render, screen, within, fireEvent, cleanup } =
+const { render, screen, within, fireEvent, cleanup, waitFor } =
   await import("@testing-library/react");
 const { getLesson } = await import("../src/curriculum.js");
 const { STORE_KEY } = await import("../src/store.js");
@@ -144,5 +144,76 @@ test(
     });
     assert.equal(document.documentElement.lang, "hi");
     assert.equal(screen.getByLabelText("Choose your class").value, "8");
+  },
+);
+
+test(
+  "cloud connection protects local work until an explicit restore",
+  { skip: !App },
+  async () => {
+    const originalFetch = globalThis.fetch;
+    const { initialState } = await import("../src/store.js");
+    const snapshot = initialState();
+    snapshot.students[0].name = "Restored learner";
+    const meta = {
+      available: true,
+      connected: true,
+      id: "test-workspace",
+      revision: 4,
+      updatedAt: "2026-11-01T09:00:00Z",
+    };
+    let saved = false;
+    globalThis.fetch = async (url, options = {}) => {
+      const data = options.body ? JSON.parse(options.body) : {};
+      if (options.method === "POST") return Response.json(meta);
+      if (options.method === "PUT") {
+        assert.equal(data.revision, 4);
+        saved = true;
+        return Response.json({ ...meta, revision: 5 });
+      }
+      if (String(url).includes("restore"))
+        return Response.json({ ...meta, snapshot });
+      return Response.json({ available: true, connected: false });
+    };
+    try {
+      render(React.createElement(App));
+      click("Cloud workspace");
+      await waitFor(() =>
+        assert.ok(
+          screen.getByRole("button", { name: "Connect existing workspace" }),
+        ),
+      );
+      fireEvent.change(screen.getByLabelText("Workspace recovery code"), {
+        target: { value: "test-recovery-code" },
+      });
+      click("Connect existing workspace");
+      await waitFor(() =>
+        assert.ok(screen.getByText("Private workspace connected")),
+      );
+      assert.equal(
+        screen.getByRole("button", { name: "Save current progress" }).disabled,
+        true,
+      );
+      click("Restore saved workspace");
+      await waitFor(() =>
+        assert.equal(
+          JSON.parse(localStorage.getItem(STORE_KEY)).students[0].name,
+          "Restored learner",
+        ),
+      );
+      assert.equal(
+        JSON.parse(localStorage.getItem("quest-grove-before-cloud-restore"))
+          .students[0].name,
+        "Explorer 1",
+      );
+      assert.equal(
+        screen.getByRole("button", { name: "Save current progress" }).disabled,
+        false,
+      );
+      click("Save current progress");
+      await waitFor(() => assert.equal(saved, true));
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
   },
 );
